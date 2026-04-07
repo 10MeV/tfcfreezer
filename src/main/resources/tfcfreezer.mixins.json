@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.github.Mev10.tfcfreezer.mixin",
+  "package": "com.github.Mev10.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "tfcfreezer.refmap.json",
   "mixins": [

@@ -1,0 +1,22 @@
+package com.github.Mev10.common.item;
+
+import com.github.Mev10.Tfcfreezer;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+
+import java.util.Locale;
+import java.util.function.Supplier;
+
+@SuppressWarnings("unused")
+public class TfcfreezerItems {
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Tfcfreezer.MOD_ID);
+    public static final RegistryObject<Item> PORTABLE_REFRIGERATOR_ITEM = register("appliances/portable_refrigerator",
+            () -> new PortableRefrigeratorItem(new Item.Properties().stacksTo(1))
+    );
+
+    private static <T extends Item> RegistryObject<T> register(String name, Supplier<T> item) {
+        return ITEMS.register(name.toLowerCase(Locale.ROOT), item);
+    }
+}
