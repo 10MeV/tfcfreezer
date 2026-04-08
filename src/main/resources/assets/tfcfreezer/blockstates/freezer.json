@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "tfcfreezer:block/freezer",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "tfcfreezer:block/freezer"
+    },
+    "facing=south": {
+      "model": "tfcfreezer:block/freezer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "tfcfreezer:block/freezer",
+      "y": 270
+    }
+  }
+}
