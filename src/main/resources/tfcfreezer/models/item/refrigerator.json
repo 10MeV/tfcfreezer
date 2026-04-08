@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/orientable",
-  "textures": {
-    "top": "tfcfreezer:block/freezer_top",
-    "side": "tfcfreezer:block/freezer_side",
-    "front": "tfcfreezer:block/freezer"
-  }
-}
