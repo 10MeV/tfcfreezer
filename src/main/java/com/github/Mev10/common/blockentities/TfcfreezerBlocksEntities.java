@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 public class TfcfreezerBlocksEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Tfcfreezer.MOD_ID);
-    public static final RegistryObject<BlockEntityType<RefrigeratorBlockEntity>> REFRIGERATOR_BLOCK = register("refrigerator", RefrigeratorBlockEntity::new, TfcfreezerBlocks.REFRIGERATOR_BLOCK);
+    public static final RegistryObject<BlockEntityType<freezerBlockEntity>> freezer_BLOCK = register("freezer", freezerBlockEntity::new, TfcfreezerBlocks.freezer_BLOCK);
 
     private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, Supplier<? extends Block> block) {
         return RegistrationHelpers.register(BLOCK_ENTITIES, name, factory, block);

@@ -1,7 +1,7 @@
 package com.github.Mev10.common.block;
 
 import com.github.Mev10.Tfcfreezer;
-import com.github.Mev10.common.blockentities.RefrigeratorBlockEntity;
+import com.github.Mev10.common.blockentities.freezerBlockEntity;
 import com.github.Mev10.common.blockentities.TfcfreezerBlocksEntities;
 import com.github.Mev10.common.item.TfcfreezerItems;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
@@ -20,13 +20,13 @@ import java.util.function.Supplier;
 public class TfcfreezerBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Tfcfreezer.MOD_ID);
 
-    public static final RegistryObject<Block> REFRIGERATOR_BLOCK = register("refrigerator",
-            () -> new RefrigeratorBlock(ExtendedProperties.of()
+    public static final RegistryObject<Block> freezer_BLOCK = register("freezer",
+            () -> new freezerBlock(ExtendedProperties.of()
                     .strength(3.5f)
                     .requiresCorrectToolForDrops()
                     .noOcclusion()
-                    .blockEntity(TfcfreezerBlocksEntities.REFRIGERATOR_BLOCK)
-                    .serverTicks(RefrigeratorBlockEntity::serverTick)
+                    .blockEntity(TfcfreezerBlocksEntities.freezer_BLOCK)
+                    .serverTicks(freezerBlockEntity::serverTick)
             ));
 
     private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> blockSupplier) {

@@ -1,6 +1,6 @@
 {
-  "item.tfcfreezer.appliances.portable_refrigerator": "Переносний Холодильник",
-  "block.tfcfreezer.refrigerator": "Холодильник",
+  "item.tfcfreezer.appliances.portable_freezer": "Переносний Холодильник",
+  "block.tfcfreezer.freezer": "Холодильник",
   "itemGroup.tfcfreezer.creative_tab": "Електроприлади TFC",
   "tooltip.tfcfreezer.food_trait.refrigerating": "Охолоджується",
   "tooltip.tfcfreezer.toggle": "Увімкнути/вимкнути"

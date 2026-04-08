@@ -12,8 +12,8 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public class TfcfreezerItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Tfcfreezer.MOD_ID);
-    public static final RegistryObject<Item> PORTABLE_REFRIGERATOR_ITEM = register("appliances/portable_refrigerator",
-            () -> new PortableRefrigeratorItem(new Item.Properties().stacksTo(1))
+    public static final RegistryObject<Item> PORTABLE_freezer_ITEM = register("appliances/portable_freezer",
+            () -> new PortablefreezerItem(new Item.Properties().stacksTo(1))
     );
 
     private static <T extends Item> RegistryObject<T> register(String name, Supplier<T> item) {

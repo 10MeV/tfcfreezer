@@ -1,6 +1,6 @@
 package com.github.Mev10.client;
 
-import com.github.Mev10.client.screen.RefrigeratorScreen;
+import com.github.Mev10.client.screen.freezerScreen;
 import com.github.Mev10.common.container.TfcfreezerContainers;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -16,7 +16,7 @@ public class TfcfreezerClientEvents {
 
     public static void clientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            MenuScreens.register(TfcfreezerContainers.REFRIGERATOR_CONTAINER.get(), RefrigeratorScreen::new);
+            MenuScreens.register(TfcfreezerContainers.freezer_CONTAINER.get(), freezerScreen::new);
         });
     }
 }

@@ -4,7 +4,7 @@ import com.github.Mev10.Tfcfreezer;
 import com.github.Mev10.common.capabilities.DelegateEnergyStorage;
 import com.github.Mev10.common.capabilities.EnergyStorageCallback;
 import com.github.Mev10.common.capabilities.InventoryConsumerEnergyStorage;
-import com.github.Mev10.common.container.RefrigeratorContainer;
+import com.github.Mev10.common.container.freezerContainer;
 import com.github.Mev10.common.item.TfcfreezerFoodTraits;
 import net.dries007.tfc.common.blockentities.InventoryBlockEntity;
 import net.dries007.tfc.common.capabilities.InventoryItemHandler;
@@ -25,14 +25,14 @@ import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class RefrigeratorBlockEntity extends ApplianceBlockEntity<RefrigeratorBlockEntity.RefrigeratorInventory> implements EnergyStorageCallback {
+public class freezerBlockEntity extends ApplianceBlockEntity<freezerBlockEntity.freezerInventory> implements EnergyStorageCallback {
     public static final int SLOTS = 27;
-    private static final Component NAME = Component.translatable(String.format("block.%s.refrigerator", Tfcfreezer.MOD_ID));
+    private static final Component NAME = Component.translatable(String.format("block.%s.freezer", Tfcfreezer.MOD_ID));
 
     private boolean prevRefrigerationState = false; // 记录前一次制冷状态
 
-    public RefrigeratorBlockEntity(BlockPos pos, BlockState state) {
-        super(TfcfreezerBlocksEntities.REFRIGERATOR_BLOCK.get(), pos, state, RefrigeratorInventory::new, NAME,true,20);
+    public freezerBlockEntity(BlockPos pos, BlockState state) {
+        super(TfcfreezerBlocksEntities.freezer_BLOCK.get(), pos, state, freezerInventory::new, NAME,true,20);
 
         // 初始设置提取规则
         updateExtractionRules();
@@ -50,42 +50,42 @@ public class RefrigeratorBlockEntity extends ApplianceBlockEntity<RefrigeratorBl
         }
     }
 
-    public static void serverTick(Level level, BlockPos pos, BlockState state, RefrigeratorBlockEntity refrigerator)
+    public static void serverTick(Level level, BlockPos pos, BlockState state, freezerBlockEntity freezer)
     {
-        refrigerator.checkForLastTickSync();
+        freezer.checkForLastTickSync();
         if (level.getGameTime() % 2 == 0)
         {
-            boolean currentState = refrigerator.canRefrigerate();
+            boolean currentState = freezer.canRefrigerate();
 
-            if(refrigerator.canRefrigerate()){
-                refrigerator.consumeEnergyForTicks(2);
-                if(refrigerator.inventory.energyStorage.getEnergyStored() < refrigerator.energyTickConsumption){
-                    refrigerator.setActivity(false);
-                    refrigerator.removeRefrigeratorTraitFromInventory();
+            if(freezer.canRefrigerate()){
+                freezer.consumeEnergyForTicks(2);
+                if(freezer.inventory.energyStorage.getEnergyStored() < freezer.energyTickConsumption){
+                    freezer.setActivity(false);
+                    freezer.removefreezerTraitFromInventory();
                 }
             }
-            else if(refrigerator.isTurnedOn() && !refrigerator.isActive()){
-                if(refrigerator.inventory.energyStorage.getEnergyStored() >= refrigerator.energyTickConsumption){
-                    refrigerator.setActivity(true);
-                    refrigerator.applyRefrigeratorTraitToInventory();
-                    refrigerator.consumeEnergyForTicks(2);
+            else if(freezer.isTurnedOn() && !freezer.isActive()){
+                if(freezer.inventory.energyStorage.getEnergyStored() >= freezer.energyTickConsumption){
+                    freezer.setActivity(true);
+                    freezer.applyfreezerTraitToInventory();
+                    freezer.consumeEnergyForTicks(2);
                 }
             }
 
             // 检查状态是否变化，如果变化则更新提取规则
-            if (refrigerator.prevRefrigerationState != currentState) {
-                refrigerator.updateExtractionRules();
-                refrigerator.prevRefrigerationState = currentState;
+            if (freezer.prevRefrigerationState != currentState) {
+                freezer.updateExtractionRules();
+                freezer.prevRefrigerationState = currentState;
             }
 
-            refrigerator.markForSync();
+            freezer.markForSync();
         }
     }
 
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int windowID, Inventory inv, Player player) {
-        return RefrigeratorContainer.create(this, inv, windowID);
+        return freezerContainer.create(this, inv, windowID);
     }
 
     public boolean canRefrigerate()
@@ -117,36 +117,36 @@ public class RefrigeratorBlockEntity extends ApplianceBlockEntity<RefrigeratorBl
     @Override
     protected void turnOff() {
         super.turnOff();
-        removeRefrigeratorTraitFromInventory();
+        removefreezerTraitFromInventory();
     }
 
     @Override
     protected void turnOn() {
         super.turnOn();
         if(canRefrigerate()){
-            applyRefrigeratorTraitToInventory();
+            applyfreezerTraitToInventory();
         }
     }
 
-    private void applyRefrigeratorTraitToInventory(){
-        inventory.applyRefrigeratorTraitToInventory();
+    private void applyfreezerTraitToInventory(){
+        inventory.applyfreezerTraitToInventory();
     }
 
-    private void removeRefrigeratorTraitFromInventory(){
-        inventory.removeRefrigeratorTraitFromInventory();
+    private void removefreezerTraitFromInventory(){
+        inventory.removefreezerTraitFromInventory();
     }
 
-    public static class RefrigeratorInventory extends InventoryItemHandler implements DelegateEnergyStorage, INBTSerializable<CompoundTag> {
+    public static class freezerInventory extends InventoryItemHandler implements DelegateEnergyStorage, INBTSerializable<CompoundTag> {
         private static final int CAPACITY = 10000;
         private static final int MAX_TRANSFER = 100;
 
-        private final RefrigeratorBlockEntity refrigerator;
+        private final freezerBlockEntity freezer;
         private final InventoryConsumerEnergyStorage energyStorage;
 
-        public RefrigeratorInventory(InventoryBlockEntity<RefrigeratorInventory> entity)
+        public freezerInventory(InventoryBlockEntity<freezerInventory> entity)
         {
             super(entity, SLOTS);
-            refrigerator = (RefrigeratorBlockEntity) entity;
+            freezer = (freezerBlockEntity) entity;
             energyStorage = new InventoryConsumerEnergyStorage(CAPACITY, MAX_TRANSFER, (EnergyStorageCallback) entity);
         }
 
@@ -154,7 +154,7 @@ public class RefrigeratorBlockEntity extends ApplianceBlockEntity<RefrigeratorBl
         @Override
         public void setStackInSlot(int slot, ItemStack stack)
         {
-            if(refrigerator.canRefrigerate() && !FoodCapability.hasTrait(stack, TfcfreezerFoodTraits.REFRIGERATING)){
+            if(freezer.canRefrigerate() && !FoodCapability.hasTrait(stack, TfcfreezerFoodTraits.REFRIGERATING)){
                 super.setStackInSlot(slot, FoodCapability.applyTrait(stack.copy(), TfcfreezerFoodTraits.REFRIGERATING));
             }else{
                 super.setStackInSlot(slot, stack.copy());
@@ -163,7 +163,7 @@ public class RefrigeratorBlockEntity extends ApplianceBlockEntity<RefrigeratorBl
 
         @Override
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            if(refrigerator.canRefrigerate() && !FoodCapability.hasTrait(stack, TfcfreezerFoodTraits.REFRIGERATING)){
+            if(freezer.canRefrigerate() && !FoodCapability.hasTrait(stack, TfcfreezerFoodTraits.REFRIGERATING)){
                 return super.insertItem(slot, FoodCapability.applyTrait(stack.copy(), TfcfreezerFoodTraits.REFRIGERATING), simulate);
             }else{
                 return  super.insertItem(slot, stack.copy(), simulate);
@@ -174,7 +174,7 @@ public class RefrigeratorBlockEntity extends ApplianceBlockEntity<RefrigeratorBl
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
             // 制冷状态下禁止物品取出
-            if (refrigerator.canRefrigerate()) {
+            if (freezer.canRefrigerate()) {
                 return ItemStack.EMPTY;
             }
 
@@ -182,14 +182,14 @@ public class RefrigeratorBlockEntity extends ApplianceBlockEntity<RefrigeratorBl
             return FoodCapability.removeTrait(super.extractItem(slot, amount, simulate).copy(), TfcfreezerFoodTraits.REFRIGERATING);
         }
 
-        public void applyRefrigeratorTraitToInventory(){
+        public void applyfreezerTraitToInventory(){
             for (int i = 0; i < SLOTS; i++)
             {
                 super.setStackInSlot(i, FoodCapability.applyTrait(super.getStackInSlot(i).copy(), TfcfreezerFoodTraits.REFRIGERATING));
             }
         }
 
-        public void removeRefrigeratorTraitFromInventory(){
+        public void removefreezerTraitFromInventory(){
             for (int i = 0; i < SLOTS; i++)
             {
                 super.setStackInSlot(i, FoodCapability.removeTrait(super.getStackInSlot(i).copy(), TfcfreezerFoodTraits.REFRIGERATING));

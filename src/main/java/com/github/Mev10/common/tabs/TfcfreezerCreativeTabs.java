@@ -21,19 +21,19 @@ public class TfcfreezerCreativeTabs {
 
     public static final RegistryObject<CreativeModeTab> TFC_ELECTRICAL_APPLIANCES_TAB = TABS.register("tfcea_creative_tab",
             () -> CreativeModeTab.builder()
-                    .icon(() -> new ItemStack(TfcfreezerItems.PORTABLE_REFRIGERATOR_ITEM.get()))
+                    .icon(() -> new ItemStack(TfcfreezerItems.PORTABLE_freezer_ITEM.get()))
                     .title(Component.translatable(String.format("itemGroup.%s.creative_tab", Tfcfreezer.MOD_ID)))
                     .displayItems(TfcfreezerCreativeTabs::fillTfceaTab)
                     .build());
 
     public static void fillTfceaTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out) {
-        out.accept(TfcfreezerBlocks.REFRIGERATOR_BLOCK.get());
+        out.accept(TfcfreezerBlocks.freezer_BLOCK.get());
     }
 
     @SubscribeEvent
     public static void onBuildCreativeTab(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
-            event.accept(TfcfreezerBlocks.REFRIGERATOR_BLOCK.get());
+            event.accept(TfcfreezerBlocks.freezer_BLOCK.get());
         }
     }
 }

@@ -1,22 +1,22 @@
 package com.github.Mev10.client.screen;
 
 import com.github.Mev10.Tfcfreezer;
-import com.github.Mev10.client.screen.button.RefrigeratorTurnOnButton;
+import com.github.Mev10.client.screen.button.freezerTurnOnButton;
 import com.github.Mev10.common.TfcfreezerHelpers;
-import com.github.Mev10.common.blockentities.RefrigeratorBlockEntity;
-import com.github.Mev10.common.container.RefrigeratorContainer;
+import com.github.Mev10.common.blockentities.freezerBlockEntity;
+import com.github.Mev10.common.container.freezerContainer;
 import net.dries007.tfc.client.screen.BlockEntityScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class RefrigeratorScreen extends BlockEntityScreen<RefrigeratorBlockEntity, RefrigeratorContainer> {
+public class freezerScreen extends BlockEntityScreen<freezerBlockEntity, freezerContainer> {
 
-    public static final ResourceLocation BACKGROUND = TfcfreezerHelpers.identifier("textures/gui/refrigerator.png");
+    public static final ResourceLocation BACKGROUND = TfcfreezerHelpers.identifier("textures/gui/freezer.png");
     private static final Component TOGGLE = Component.translatable(String.format("tooltip.%s.toggle", Tfcfreezer.MOD_ID));
 
-    public RefrigeratorScreen(RefrigeratorContainer container, Inventory playerInventory, Component name) {
+    public freezerScreen(freezerContainer container, Inventory playerInventory, Component name) {
         super(container, playerInventory, name, BACKGROUND);
         imageWidth += 20;
     }
@@ -25,7 +25,7 @@ public class RefrigeratorScreen extends BlockEntityScreen<RefrigeratorBlockEntit
     public void init()
     {
         super.init();
-        addRenderableWidget(new RefrigeratorTurnOnButton(blockEntity, getGuiLeft(), getGuiTop(), TOGGLE));
+        addRenderableWidget(new freezerTurnOnButton(blockEntity, getGuiLeft(), getGuiTop(), TOGGLE));
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.github.Mev10.common.container;
 
-import com.github.Mev10.common.blockentities.RefrigeratorBlockEntity;
+import com.github.Mev10.common.blockentities.freezerBlockEntity;
 import com.github.Mev10.common.item.TfcfreezerFoodTraits;
 import net.dries007.tfc.common.capabilities.Capabilities;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
@@ -13,14 +13,14 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-public class RefrigeratorContainer extends BlockEntityContainer<RefrigeratorBlockEntity> implements  ApplianceButtonHandlerContainer {
+public class freezerContainer extends BlockEntityContainer<freezerBlockEntity> implements  ApplianceButtonHandlerContainer {
 
-    public static RefrigeratorContainer create(RefrigeratorBlockEntity refrigerator, Inventory playerInventory, int windowId) {
-        return new RefrigeratorContainer(windowId, refrigerator).init(playerInventory);
+    public static freezerContainer create(freezerBlockEntity freezer, Inventory playerInventory, int windowId) {
+        return new freezerContainer(windowId, freezer).init(playerInventory);
     }
 
-    protected RefrigeratorContainer(int windowId, RefrigeratorBlockEntity blockEntity) {
-        super(TfcfreezerContainers.REFRIGERATOR_CONTAINER.get(), windowId, blockEntity);
+    protected freezerContainer(int windowId, freezerBlockEntity blockEntity) {
+        super(TfcfreezerContainers.freezer_CONTAINER.get(), windowId, blockEntity);
     }
 
     @Override

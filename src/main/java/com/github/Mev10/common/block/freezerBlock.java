@@ -1,6 +1,6 @@
 package com.github.Mev10.common.block;
 
-import com.github.Mev10.common.blockentities.RefrigeratorBlockEntity;
+import com.github.Mev10.common.blockentities.freezerBlockEntity;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.devices.DeviceBlock;
 import net.dries007.tfc.util.Helpers;
@@ -19,18 +19,18 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 
-public class RefrigeratorBlock extends DeviceBlock  implements FourWayFacingDeviceBlock {
+public class freezerBlock extends DeviceBlock  implements FourWayFacingDeviceBlock {
 
-    public RefrigeratorBlock(ExtendedProperties properties) {
+    public freezerBlock(ExtendedProperties properties) {
         super(properties, InventoryRemoveBehavior.DROP);
         registerDefaultState(getStateDefinition().any());
     }
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        level.getBlockEntity(pos, getExtendedProperties().<RefrigeratorBlockEntity>blockEntity()).ifPresent(refrigerator -> {
+        level.getBlockEntity(pos, getExtendedProperties().<freezerBlockEntity>blockEntity()).ifPresent(freezer -> {
             if (player instanceof ServerPlayer serverPlayer) {
-                Helpers.openScreen(serverPlayer, refrigerator, pos);
+                Helpers.openScreen(serverPlayer, freezer, pos);
             }
         });
 
