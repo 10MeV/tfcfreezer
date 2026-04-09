@@ -28,6 +28,7 @@ public class TfcfreezerCreativeTabs {
 
     public static void fillTfceaTab(CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output out) {
         out.accept(TfcfreezerBlocks.freezer_BLOCK.get());
+        out.accept(TfcfreezerItems.PORTABLE_freezer_ITEM.get());
     }
 
     @SubscribeEvent

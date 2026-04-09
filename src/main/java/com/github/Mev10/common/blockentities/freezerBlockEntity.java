@@ -32,7 +32,7 @@ public class freezerBlockEntity extends ApplianceBlockEntity<freezerBlockEntity.
     private boolean prevRefrigerationState = false; // 记录前一次制冷状态
 
     public freezerBlockEntity(BlockPos pos, BlockState state) {
-        super(TfcfreezerBlocksEntities.freezer_BLOCK.get(), pos, state, freezerInventory::new, NAME,true,20);
+        super(TfcfreezerBlocksEntities.freezer_BLOCK.get(), pos, state, freezerInventory::new, NAME,true,100);
 
         // 初始设置提取规则
         updateExtractionRules();
@@ -137,8 +137,8 @@ public class freezerBlockEntity extends ApplianceBlockEntity<freezerBlockEntity.
     }
 
     public static class freezerInventory extends InventoryItemHandler implements DelegateEnergyStorage, INBTSerializable<CompoundTag> {
-        private static final int CAPACITY = 10000;
-        private static final int MAX_TRANSFER = 100;
+        private static final int CAPACITY = 1000000;
+        private static final int MAX_TRANSFER = 800;
 
         private final freezerBlockEntity freezer;
         private final InventoryConsumerEnergyStorage energyStorage;

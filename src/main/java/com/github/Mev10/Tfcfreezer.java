@@ -34,8 +34,8 @@ public class Tfcfreezer {
 
         TfcfreezerConfig.init();
         TfcfreezerPacketHandler.init();
-        if (FMLEnvironment.dist == Dist.CLIENT)
-        {
+
+        if (FMLEnvironment.dist == Dist.CLIENT) {
             TfcfreezerClientEvents.init();
         }
     }
