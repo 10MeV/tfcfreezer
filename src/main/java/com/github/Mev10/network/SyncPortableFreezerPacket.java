@@ -33,10 +33,8 @@ public class SyncPortableFreezerPacket {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) return;
 
-        CompoundTag receivedTag = msg.stack.getOrCreateTag();
-
         if (mc.player.containerMenu instanceof PortableFreezerContainer container) {
-            container.receiveSyncData(receivedTag);
+            container.receiveSyncData(msg.stack);
 
             // 强制刷新所有冰箱槽位
             for (int i = 0; i < PortableFreezerContainer.SLOTS; i++) {

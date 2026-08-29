@@ -1,9 +1,8 @@
 package com.github.Mev10.common.item;
 
-import com.github.Mev10.Tfcfreezer;
-import com.github.Mev10.common.capabilities.PortableFreezerEnergyStorage;
+import com.github.Mev10.common.capabilities.PortableFreezerEnergyProvider;
 import com.github.Mev10.common.container.PortableFreezerContainer;
-import net.minecraft.core.Direction;
+import com.github.Mev10.network.SyncPortableFreezerPacket;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,13 +15,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.network.NetworkHooks;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PortablefreezerItem extends Item {
@@ -61,7 +57,7 @@ public class PortablefreezerItem extends Item {
                 public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
                     return new PortableFreezerContainer(windowId, inv, stack);
                 }
-            }, buf -> buf.writeItem(stack));
+            }, buf -> SyncPortableFreezerPacket.writeItemStack(stack, buf));
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
@@ -73,8 +69,7 @@ public class PortablefreezerItem extends Item {
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        CompoundTag tag = stack.getOrCreateTag();
-        int energy = tag.getInt("Energy");
+        int energy = getEnergyStored(stack);
         return Math.round(13.0f * energy / CAPACITY);
     }
 
@@ -85,17 +80,7 @@ public class PortablefreezerItem extends Item {
 
     @Override
     public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return new ICapabilityProvider() {
-            private final LazyOptional<IEnergyStorage> energyStorage = LazyOptional.of(() -> new PortableFreezerEnergyStorage(stack));
-
-            @Override
-            public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-                if (cap == ForgeCapabilities.ENERGY) {
-                    return energyStorage.cast();
-                }
-                return LazyOptional.empty();
-            }
-        };
+        return new PortableFreezerEnergyProvider();
     }
 
     public static boolean isTurnedOn(ItemStack stack) {
@@ -106,7 +91,13 @@ public class PortablefreezerItem extends Item {
         stack.getOrCreateTag().putBoolean("TurnedOn", on);
     }
 
-    public static IEnergyStorage getEnergyStorage(ItemStack stack) {
+    public static @Nullable IEnergyStorage getEnergyStorage(ItemStack stack) {
         return stack.getCapability(ForgeCapabilities.ENERGY).orElse(null);
+    }
+
+    public static int getEnergyStored(ItemStack stack) {
+        return stack.getCapability(ForgeCapabilities.ENERGY)
+                .map(IEnergyStorage::getEnergyStored)
+                .orElse(0);
     }
 }

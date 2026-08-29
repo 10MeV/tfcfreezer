@@ -10,7 +10,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -39,7 +38,7 @@ public class PortableFreezerTickHandler {
     }
 
     public static void processFreezerTick(ItemStack freezerStack, Player player) {
-        var energyCap = freezerStack.getCapability(ForgeCapabilities.ENERGY).orElse(null);
+        var energyCap = PortablefreezerItem.getEnergyStorage(freezerStack);
         if (energyCap == null) return;
 
         int required = PortablefreezerItem.ENERGY_PER_TICK * 20;

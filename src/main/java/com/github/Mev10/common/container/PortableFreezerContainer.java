@@ -1,8 +1,5 @@
 package com.github.Mev10.common.container;
 
-import com.github.Mev10.Tfcfreezer;
-import com.github.Mev10.common.capabilities.PortableFreezerEnergyStorage;
-import com.github.Mev10.common.event.PortableFreezerTickHandler;
 import com.github.Mev10.common.item.PortablefreezerItem;
 import com.github.Mev10.common.item.TfcfreezerFoodTraits;
 import com.github.Mev10.network.SyncPortableFreezerPacket;
@@ -28,7 +25,6 @@ public class PortableFreezerContainer extends AbstractContainerMenu {
 
     private final ItemStack freezerStack;
     private final Player player;
-    private final PortableFreezerEnergyStorage energyStorage;
     private final ItemStackHandler itemHandler;
 
     private boolean isTurnedOn;
@@ -42,7 +38,7 @@ public class PortableFreezerContainer extends AbstractContainerMenu {
     private static final int SYNC_INTERVAL = 20;
 
     public PortableFreezerContainer(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
-        this(windowId, playerInv, extraData.readItem());
+        this(windowId, playerInv, SyncPortableFreezerPacket.readItemStack(extraData));
     }
 
     public PortableFreezerContainer(int windowId, Inventory playerInv, ItemStack stack) {
@@ -56,9 +52,7 @@ public class PortableFreezerContainer extends AbstractContainerMenu {
 
         this.clientIsTurnedOn = this.isTurnedOn;
         this.clientIsActive = this.isActive;
-        this.clientEnergy = tag.getInt("Energy");
-
-        this.energyStorage = new PortableFreezerEnergyStorage(stack);
+        this.clientEnergy = PortablefreezerItem.getEnergyStored(stack);
 
         this.itemHandler = new ItemStackHandler(SLOTS) {
             @Override
@@ -167,7 +161,6 @@ public class PortableFreezerContainer extends AbstractContainerMenu {
             updateRefrigerationState();
             saveToNBT();
         }
-        persistToActualStack();
         syncToClient();
     }
 
@@ -203,18 +196,11 @@ public class PortableFreezerContainer extends AbstractContainerMenu {
         }
     }
 
-    private void persistToActualStack() {
-        if (player.level().isClientSide) return;
-        ItemStack actualStack = findMatchingFreezerInInventory(player);
-        if (actualStack != null) {
-            actualStack.setTag(freezerStack.getOrCreateTag().copy());
-        }
-    }
-
-    public void receiveSyncData(CompoundTag tag) {
+    public void receiveSyncData(ItemStack syncedStack) {
+        CompoundTag tag = syncedStack.getOrCreateTag();
         this.clientIsTurnedOn = tag.getBoolean("TurnedOn");
         this.clientIsActive = tag.getBoolean("Active");
-        this.clientEnergy = tag.getInt("Energy");
+        this.clientEnergy = PortablefreezerItem.getEnergyStored(syncedStack);
         CompoundTag invTag = tag.getCompound("Inventory");
         if (!invTag.isEmpty()) itemHandler.deserializeNBT(invTag);
     }
@@ -224,7 +210,7 @@ public class PortableFreezerContainer extends AbstractContainerMenu {
     }
 
     public int getEnergy() {
-        return player.level().isClientSide ? clientEnergy : energyStorage.getEnergyStored();
+        return player.level().isClientSide ? clientEnergy : PortablefreezerItem.getEnergyStored(freezerStack);
     }
 
     public int getMaxEnergy() {
@@ -271,19 +257,6 @@ public class PortableFreezerContainer extends AbstractContainerMenu {
         super.removed(player);
         if (!player.level().isClientSide) {
             saveToNBT();
-            persistToActualStack();
         }
-    }
-
-    private ItemStack findMatchingFreezerInInventory(Player player) {
-        ItemStack mainHand = player.getMainHandItem();
-        if (mainHand.getItem() instanceof PortablefreezerItem) return mainHand;
-        ItemStack offHand = player.getOffhandItem();
-        if (offHand.getItem() instanceof PortablefreezerItem) return offHand;
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            ItemStack stack = player.getInventory().getItem(i);
-            if (stack.getItem() instanceof PortablefreezerItem) return stack;
-        }
-        return null;
     }
 }
